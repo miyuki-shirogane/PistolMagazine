@@ -27,5 +27,5 @@ class Datetime(_BaseField):
             except ValueError:
                 continue
 
-    def to_str(self):
+    def get_datatype(self):
         return "_".join([type(self).__name__, str(self.date_format)])

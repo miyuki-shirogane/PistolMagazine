@@ -15,5 +15,5 @@ class List(_BaseField):
     def mock(self):
         return [i.mock() for i in self.list_fields]
 
-    def to_str(self):
-        return [value.to_str() for value in self.list_fields]
+    def get_datatype(self):
+        return [value.get_datatype() for value in self.list_fields]

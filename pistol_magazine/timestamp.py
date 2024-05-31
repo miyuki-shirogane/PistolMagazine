@@ -37,7 +37,7 @@ class Timestamp(_BaseField):
             except (ValueError, OSError):
                 pass
 
-    def to_str(self):
+    def get_datatype(self):
         return "_".join([type(self).__name__, str(self.times)])
 
 

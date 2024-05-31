@@ -97,7 +97,7 @@ def test_read_model_from_dicts():
               }]
     }
     data_mocker = DataMocker.read_models_from_dicts(data)
-    pprint(data_mocker.to_str())
+    pprint(data_mocker.get_datatype())
 
 
 def test_load_dicts():

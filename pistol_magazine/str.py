@@ -44,7 +44,7 @@ class StrFloat(_BaseField):
         from pistol_magazine.float import Float
         return str(Float().mock())
 
-    def to_str(self):
+    def get_datatype(self):
         return type(self).__name__
 
 

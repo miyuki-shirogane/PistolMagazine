@@ -9,6 +9,6 @@ class Float(_BaseField):
     def mock(self):
         return self.fake.pyfloat(self.left, self.right)
 
-    def to_str(self):
+    def get_datatype(self):
         return type(self).__name__
         # return "_".join([type(self).__name__, str(self.left), str(self.right)])

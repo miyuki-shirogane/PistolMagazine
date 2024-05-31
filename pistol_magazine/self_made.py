@@ -95,8 +95,8 @@ class DataMocker(metaclass=_MetaMocker):
         else:
             raise ValueError(f"Unsupported type{data} {type(data)}")
 
-    def to_str(self):
-        return self.models.to_str()
+    def get_datatype(self):
+        return self.models.get_datatype()
 
     def mock(self):
         return self.models.mock()

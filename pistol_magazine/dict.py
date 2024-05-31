@@ -15,5 +15,5 @@ class Dict(_BaseField):
     def mock(self):
         return {key: value.mock() for key, value in self.dict_fields.items()}
 
-    def to_str(self):
-        return {key: value.to_str() for key, value in self.dict_fields.items()}
+    def get_datatype(self):
+        return {key: value.get_datatype() for key, value in self.dict_fields.items()}

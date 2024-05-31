@@ -32,5 +32,5 @@ class _BaseField(metaclass=_MetaField):
     def mock(self):
         return "base"
 
-    def to_str(self):
+    def get_datatype(self):
         return type(self).__name__
