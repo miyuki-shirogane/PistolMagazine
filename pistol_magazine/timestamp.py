@@ -4,12 +4,10 @@ from pistol_magazine.base import _BaseField
 
 
 class Timestamp(_BaseField):
-    D_TIMEE9 = 9
-    D_TIMEE6 = 6
-    D_TIMEE3 = 3
-    D_TIMEE0 = 0
+    D_TIMEE13 = 3
+    D_TIMEE10 = 0
 
-    def __init__(self, times: int or str = D_TIMEE9, **kwargs):
+    def __init__(self, times: int or str = D_TIMEE13, **kwargs):
         self.start = datetime.now()
         self.times = int(times)
         if not kwargs:

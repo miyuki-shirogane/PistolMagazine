@@ -14,7 +14,7 @@ def test():
     c = Dict(
         {
             "a": UInt(),
-            "b": Timestamp(Timestamp.D_TIMEE3),
+            "b": Timestamp(),
             "C": List(
                 [
                     Datetime(Datetime.D_FORMAT_YMD),
@@ -58,7 +58,7 @@ def test_data_mocker():
     class PositionMocker(DataMocker):
         symbol: Str
         x: Float
-        update_at: Timestamp = Timestamp(Timestamp.D_TIMEE3)
+        update_at: Timestamp = Timestamp(Timestamp.D_TIMEE13)
 
     data = PositionMocker().mock()
     print(data)
@@ -69,17 +69,17 @@ def test_data_mocker():
 models = {
     'a': {'1': 'Datetime_%Y-%m-%dT%H:%M:%S', '2': 'StrFloat', '3': 'Float', '4': 'Int'},
     'b': 'Timestamp_0', 'c': 'Timestamp_3', 'd': 'Str',
-    'e': ['StrTimestamp_6', 'Str', {'f': 'Int', "g": "StrInt"}]
+    'e': ['StrTimestamp_3', 'Str', {'f': 'Int', "g": "StrInt"}]
 }
 
 
 def test_str_timestamp():
-    print(StrTimestamp.match("1716964369839000"))
-    print(Float(left=2, right=4).mock())
+    print(StrTimestamp.match("1716964369839"))
+    print(Float(left=2, right=7).mock())
 
 
 def test_read_model_from_dicts():
-    # Given a data sample, return type model
+    # Given a data sample, return format model
     data = {
         "a": {
             "1": "2022-01-01T00:00:00",
