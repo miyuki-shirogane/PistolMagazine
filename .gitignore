@@ -3,4 +3,6 @@
 .DS_Store
 __pycache__/
 logs/
-test/
+build/
+dist/
+*.egg-info/

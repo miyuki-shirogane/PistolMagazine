@@ -4,11 +4,11 @@ DATE := $(shell date '+%Y-%m-%dT%H:%M:%S%z')
 # PyPI repository URL
 PYPI_REPO := https://upload.pypi.org/legacy/
 
-# Name of your package
-PACKAGE_NAME := your_package_name
+# Name
+PACKAGE_NAME := PistolMagazine
 
-# Version of your package (assuming you manage version in __init__.py)
-PACKAGE_VERSION := $(shell python -c "import your_package_name; print(your_package_name.__version__)")
+# Version of PistolMagazine
+PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazine.__version__)")
 
 # Clean previous build artifacts
 clean:
@@ -19,7 +19,7 @@ clean:
 # Build the package
 build: clean
 	@echo "Building $(PACKAGE_NAME) version $(PACKAGE_VERSION)..."
-	@python setup.py sdist bdist_wheel
+	@python3 setup.py sdist bdist_wheel
 	@echo "Build finished."
 
 # Upload the package to PyPI
