@@ -13,7 +13,7 @@ PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazi
 # Clean previous build artifacts
 clean:
 	@echo "Cleaning previous build artifacts..."
-	@rm -rf dist
+	@rm -rf build dist *.egg-info
 	@echo "Clean finished."
 
 # Build the package
@@ -23,7 +23,7 @@ build: clean
 	@echo "Build finished."
 
 # Upload the package to PyPI
-upload: clean build
+upload: build
 	@echo "Uploading $(PACKAGE_NAME) version $(PACKAGE_VERSION) to PyPI..."
 	@twine upload --repository-url $(PYPI_REPO) dist/*
 	@echo "Upload finished."
@@ -36,6 +36,13 @@ checkpoint:
 	@git push
 	@echo "Checkpoint created and pushed to remote."
 
-# Perform both checkpoint and upload
-release: checkpoint upload
-	@echo "Code committed, pushed, and package uploaded to PyPI."
+# Tag the current version
+tag:
+	@echo "Tagging the version $(PACKAGE_VERSION)..."
+	@git tag -a v$(PACKAGE_VERSION) -m "Release version $(PACKAGE_VERSION)"
+	@git push origin v$(PACKAGE_VERSION)
+	@echo "Version $(PACKAGE_VERSION) tagged and pushed to remote."
+
+# Perform both checkpoint, tag, and upload
+release: checkpoint tag upload
+	@echo "Code committed, tagged, pushed, and package uploaded to PyPI."
