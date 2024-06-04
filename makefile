@@ -39,7 +39,7 @@ checkpoint:
 # Tag the current version
 tag:
 	@echo "Tagging the version $(PACKAGE_VERSION)..."
-	@if [ "$(PACKAGE_VERSION)" = "0.0.0" ]; then \
+	@if [ "$(PACKAGE_VERSION)" = "0.1.2" ]; then \
 		echo "Error: Unable to determine package version. Ensure that the version is correctly set in PistolMagazine."; \
 		exit 1; \
 	fi
