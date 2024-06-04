@@ -1,4 +1,4 @@
-MESSAGE ?= "checkpoint"
+MESSAGE ?= "add tag"
 DATE := $(shell date '+%Y-%m-%dT%H:%M:%S%z')
 
 # PyPI repository URL
@@ -8,7 +8,7 @@ PYPI_REPO := https://upload.pypi.org/legacy/
 PACKAGE_NAME := PistolMagazine
 
 # Version of PistolMagazine
-PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazine.__version__)")
+PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazine.__version__)" 2>/dev/null || echo "0.0.0")
 
 # Clean previous build artifacts
 clean:
@@ -39,6 +39,15 @@ checkpoint:
 # Tag the current version
 tag:
 	@echo "Tagging the version $(PACKAGE_VERSION)..."
+	@if [ "$(PACKAGE_VERSION)" = "0.0.0" ]; then \
+		echo "Error: Unable to determine package version. Ensure that the version is correctly set in PistolMagazine."; \
+		exit 1; \
+	fi
+	@if git rev-parse "v$(PACKAGE_VERSION)" >/dev/null 2>&1; then \
+		echo "Tag v$(PACKAGE_VERSION) already exists. Deleting it..."; \
+		git tag -d "v$(PACKAGE_VERSION)"; \
+		git push github --delete "v$(PACKAGE_VERSION)"; \
+	fi
 	@git tag -a v$(PACKAGE_VERSION) -m "Release version $(PACKAGE_VERSION)"
 	@git push github v$(PACKAGE_VERSION)
 	@echo "Version $(PACKAGE_VERSION) tagged and pushed to remote."
