@@ -49,6 +49,9 @@ print(DataMocker.symbols())
 
 ```
 
+If you want more detailed instructions, you can refer to the examples and documentation in the ['tests'](tests) directory.
+
+
 ## Help PistolMagazine
 
 If you find PistolMagazine useful, please ⭐️ Star it at GitHub
