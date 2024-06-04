@@ -8,7 +8,7 @@ PYPI_REPO := https://upload.pypi.org/legacy/
 PACKAGE_NAME := PistolMagazine
 
 # Version of PistolMagazine
-PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazine.__version__)" 2>/dev/null || echo "0.1.2")
+PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazine.__version__)" 2>/dev/null || echo "0.1.3")
 
 # Clean previous build artifacts
 clean:
@@ -39,7 +39,7 @@ checkpoint:
 # Tag the current version
 tag:
 	@echo "Tagging the version $(PACKAGE_VERSION)..."
-	@if [ "$(PACKAGE_VERSION)" = "0.1.2" ]; then \
+	@if [ "$(PACKAGE_VERSION)" = "0.1.3" ]; then \
 		echo "Error: Unable to determine package version. Ensure that the version is correctly set in PistolMagazine."; \
 		exit 1; \
 	fi
