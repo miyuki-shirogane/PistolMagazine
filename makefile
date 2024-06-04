@@ -40,7 +40,7 @@ checkpoint:
 tag:
 	@echo "Tagging the version $(PACKAGE_VERSION)..."
 	@git tag -a v$(PACKAGE_VERSION) -m "Release version $(PACKAGE_VERSION)"
-	@git push origin v$(PACKAGE_VERSION)
+	@git push github v$(PACKAGE_VERSION)
 	@echo "Version $(PACKAGE_VERSION) tagged and pushed to remote."
 
 # Perform both checkpoint, tag, and upload
