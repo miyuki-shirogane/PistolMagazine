@@ -8,7 +8,7 @@ def read_readme():
 
 setup(
     name='PistolMagazine',
-    version='0.1.3',
+    version='0.1.4',
     description='A data mocking tool designed to help you generate realistic data for testing and development purposes.',
     author='Ealyn',
     author_email='miyuk1@126.com',
