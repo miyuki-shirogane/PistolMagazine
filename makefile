@@ -1,4 +1,4 @@
-MESSAGE ?= "add tag"
+MESSAGE ?= "checkpoint"
 DATE := $(shell date '+%Y-%m-%dT%H:%M:%S%z')
 
 # PyPI repository URL
