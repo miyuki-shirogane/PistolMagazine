@@ -1,5 +1,6 @@
 # PistolMagazine 🎯
-[![Latest Version](https://shields.PistolMagazine.org/pypi/v/PistolMagazine.svg)](https://pypi.python.org/pypi/PistolMagazine)
+![PyPI - Version](https://img.shields.io/pypi/v/PistolMagazine)
+
 
 PistolMagazine is a data mocking tool designed to help you generate realistic data for testing and development purposes. With support for custom providers and various data types, PistolMagazine makes it easy to simulate real-world data scenarios.
 
