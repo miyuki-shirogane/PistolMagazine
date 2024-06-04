@@ -2,13 +2,12 @@
 ![PyPI - Version](https://img.shields.io/pypi/v/PistolMagazine)
 
 
-PistolMagazine is a data mocking tool designed to help you generate realistic data for testing and development purposes. With support for custom providers and various data types, PistolMagazine makes it easy to simulate real-world data scenarios.
+PistolMagazine is a data mocking tool designed to help you generate realistic data for testing and development purposes.
 
 ## Features ✨
 
 - **Flexible Data Types** 📊: Supports various data types including integers, floats, strings, timestamps, and more.
 - **Custom Providers** 🛠️: Easily create and integrate custom data providers.
-- **Extensible** 🚀: Built to be extended with new data types and providers.
 - **Random Data Generation** 🎲: Generates realistic random data for testing.
 
 ## Installation 📦
@@ -49,13 +48,13 @@ print(DataMocker.symbols())
 
 ```
 
-If you want more detailed instructions, you can refer to the examples and documentation in the ['tests'](tests) directory.
+If you want more detailed instructions, you can refer to the examples and documentation in the [tests' directory](tests).
 
 
 ## Help PistolMagazine
 
 If you find PistolMagazine useful, please ⭐️ Star it at GitHub
 
-[Feature discussions](https://github.com/miyuki-shirogane/PistolMagazine/discussions) and [bug reports](https://github.com/miyuki-shirogane/PistolMagazine/issues) are welcome!
+[Feature discussions](https://github.com/miyuki-shirogane/PistolMagazine/discussions) and [bug reports](https://github.com/miyuki-shirogane/PistolMagazine/issues) are also welcome!
 
-Happy Mocking! 🎉
+**Happy Mocking!** 🎉🎉🎉
