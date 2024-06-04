@@ -8,7 +8,7 @@ PYPI_REPO := https://upload.pypi.org/legacy/
 PACKAGE_NAME := PistolMagazine
 
 # Version of PistolMagazine
-PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazine.__version__)" 2>/dev/null || echo "0.0.0")
+PACKAGE_VERSION := $(shell python3 -c "import PistolMagazine; print(PistolMagazine.__version__)" 2>/dev/null || echo "0.1.2")
 
 # Clean previous build artifacts
 clean:
