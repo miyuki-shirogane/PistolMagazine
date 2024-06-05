@@ -22,6 +22,8 @@ class Str(_BaseField):
 class StrInt(_BaseField):
 
     def __init__(self, byte_nums=64, unsigned=False):
+        self.byte_nums = byte_nums
+        self.unsigned = unsigned
         if unsigned:
             min_num = 0
             max_num = 2 ** byte_nums - 1
@@ -32,17 +34,20 @@ class StrInt(_BaseField):
 
     def mock(self):
         from pistol_magazine.int import Int
-        return str(Int().mock())
+        int_instance = Int(self.byte_nums, self.unsigned)
+        return str(int_instance.mock())
 
 
 class StrFloat(_BaseField):
-    def __init__(self, left=2, right=2):
+    def __init__(self, left=2, right=2, unsigned=False):
         self.left = int(left)
         self.right = int(right)
+        self.unsigned = unsigned
 
     def mock(self):
         from pistol_magazine.float import Float
-        return str(Float().mock())
+        float_instance = Float(self.left, self.right, self.unsigned)
+        return str(float_instance.mock())
 
     def get_datatype(self):
         return type(self).__name__
@@ -53,16 +58,13 @@ class StrTimestamp(_BaseField):
     D_TIMEE10 = 0
 
     def __init__(self, times: int or str = D_TIMEE13, **kwargs):
-        self.start = datetime.now()
+        self.current_time = datetime.now()
         self.times = int(times)
-        if not kwargs:
-            self.kwargs = {"milliseconds": 1}
-        else:
-            self.kwargs = kwargs
+        self.kwargs = kwargs
 
     def mock(self):
         from pistol_magazine import Timestamp
-        return str(Timestamp().mock())
+        return str(Timestamp(self.times, **self.kwargs).mock())
 
     @classmethod
     def match(cls, value: str):

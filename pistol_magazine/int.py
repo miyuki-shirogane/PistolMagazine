@@ -19,9 +19,7 @@ class Int(_BaseField):
 
 
 class UInt(Int):
-    """
-    Unsigned integer: The range is from 0 to 2^n - 1 (n is the number of bits).
-    """
+
     def __init__(self):
         super().__init__(64, True)
 
@@ -37,9 +35,6 @@ class Int8(Int):
 
 
 class UInt16(Int):
-    """
-    Signed integer: The range is from -2^(n-1) to 2^(n-1) - 1 (n is the number of bits).
-    """
     def __init__(self):
         super().__init__(16, True)
 
