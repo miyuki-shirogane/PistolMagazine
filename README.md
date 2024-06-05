@@ -27,15 +27,19 @@ from pistol_magazine import *
 from random import choice
 
 # Define your data structure
-data_structure = Dict({
-    "id": UInt8(),
-    "name": Str(),
-    "timestamp": Timestamp(),
-    "values": List([Int(), Float()])
-})
+expect_format = {
+        "a": Float(left=2, right=4, unsigned=True),
+        "b": Timestamp(Timestamp.D_TIMEE10, days=2),
+        "C": List(
+            [
+                Datetime(Datetime.D_FORMAT_YMD_T, weeks=2),
+                StrInt(byte_nums=6, unsigned=True)
+            ]
+        )
+    }
+# Generate mock data, e.g. {'a': -54.9438, 'b': 1717673498, 'C': ['2024-06-15T04:50:46', '5']}
+print(Dict(expect_format).mock())
 
-# Generate mock data
-print(data_structure.mock())
 
 # Create a custom provider
 @provider
@@ -43,7 +47,7 @@ class MyProvider:
     def symbols(self):
         return choice(["BTC", "ETH"])
 
-# Use the custom provider
+# Use the custom provider, e.g. "ETH"
 print(DataMocker.symbols())
 
 ```
