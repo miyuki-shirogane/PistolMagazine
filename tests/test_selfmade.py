@@ -4,6 +4,13 @@ from pistol_magazine import DataMocker, provider
 
 
 def test_model_data_conversion():
+    """
+    Use it when your mock requirements are not that precise.
+    In this case, you cannot use `kwargs` to pass custom arguments such as instances of the `Timestamp` class.
+    Only the default rules for keyword arguments can be used.
+    If you want to use `kwargs`, refer to the test functions in files like `test_dict` and `test_list` for guidance.
+    :return:
+    """
     data = {
         "a": {
             "1": "2022-01-01T00:00:00",
