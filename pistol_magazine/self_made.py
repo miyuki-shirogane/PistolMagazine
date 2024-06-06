@@ -51,12 +51,12 @@ class DataMocker(metaclass=_MetaMocker):
             else:
                 return Str.match(value)
         elif isinstance(value, dict):
-            return cls.read_models_from_dicts(value)
+            return cls.data_to_model(value)
         elif isinstance(value, list):
-            return cls.read_models_from_dicts(value)
+            return cls.data_to_model(value)
 
     @classmethod
-    def read_models_from_dicts(cls, data: dict or list):
+    def data_to_model(cls, data: dict or list):
         if isinstance(data, dict):
             result = {}
             for key, value in data.items():
@@ -73,15 +73,15 @@ class DataMocker(metaclass=_MetaMocker):
     @classmethod
     def load_value(cls, value):
         if isinstance(value, dict):
-            return cls.load_models_from_dict(value)
+            return cls.model_to_data(value)
         elif isinstance(value, list):
-            return cls.load_models_from_dict(value)
+            return cls.model_to_data(value)
         else:
             class_name, *args = value.split("_")
             return Int.name_map[class_name](*args)
 
     @classmethod
-    def load_models_from_dict(cls, data: dict or list) -> Dict or List:
+    def model_to_data(cls, data: dict or list) -> Dict or List:
         if isinstance(data, dict):
             result = {}
             for key, value in data.items():
