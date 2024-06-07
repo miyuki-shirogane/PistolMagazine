@@ -24,7 +24,6 @@ Here’s a quick example to get you started:
 
 ```python
 from pistol_magazine import *
-from pistol_magazine.self_made import ProviderField
 from random import choice
 
 # Define your data structure

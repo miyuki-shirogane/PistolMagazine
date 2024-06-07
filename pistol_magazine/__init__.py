@@ -6,6 +6,7 @@ from .list import List
 from .str import Str, StrInt, StrFloat, StrTimestamp
 from .timestamp import Timestamp
 from .self_made import DataMocker
+from .self_made import ProviderField
 from .provider import provider
 
 __all__ = [
@@ -27,5 +28,6 @@ __all__ = [
     'Timestamp',
     'StrTimestamp',
     'DataMocker',
-    'provider'
+    'provider',
+    'ProviderField'
 ]
