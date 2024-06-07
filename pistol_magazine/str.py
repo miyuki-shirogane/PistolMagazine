@@ -1,22 +1,34 @@
-from enum import Enum
-
 from pistol_magazine.base import _BaseField
 from datetime import datetime
 
 
+# class DataTypeDescriptor:
+#     def __init__(self, fake_instance):
+#         self._fake_instance = fake_instance
+#         self._valid_data_types = {name for name in dir(fake_instance) if not name.startswith('_')}
+#         self._value = None
+#
+#     def __get__(self, instance, owner):
+#         return self._value
+#
+#     def __set__(self, instance, value):
+#         if value not in self._valid_data_types:
+#             raise ValueError(f"Unsupported data type: {value}. Must be one of {self._valid_data_types}")
+#         self._value = value
 class DataTypeDescriptor:
     def __init__(self, fake_instance):
         self._fake_instance = fake_instance
         self._valid_data_types = {name for name in dir(fake_instance) if not name.startswith('_')}
-        self._value = None
 
     def __get__(self, instance, owner):
-        return self._value
+        if instance is None:
+            return self
+        return instance.__dict__.get('data_type')
 
     def __set__(self, instance, value):
         if value not in self._valid_data_types:
             raise ValueError(f"Unsupported data type: {value}. Must be one of {self._valid_data_types}")
-        self._value = value
+        instance.__dict__['data_type'] = value
 
 
 class Str(_BaseField):

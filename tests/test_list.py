@@ -11,4 +11,4 @@ def test_list():
         Timestamp(Timestamp.D_TIMEE10, days=2),
         Float(left=2, right=4, unsigned=True)
     ]
-    print(List(expect_format).mock())  # e.g. ['2024-06-07 10:08:33', 1717595304, 82.6476]
+    print(List(expect_format).mock(to_json=True))  # e.g. ["2024-06-09 11:49:51", 1717730470, 68.1601] <JSON>

@@ -7,7 +7,7 @@ def test_str():
     print(str.match("123").mock())  # e.g.-6559854688025321017 <str type>
     print(str.match("information").mock())  # e.g. figure <str type>
     print(str.match("2.3").mock())  # e.g. 48.27 <str type>
-    str_customize = Str(data_type="namee")  # Support 'email', 'word'(Default), 'address', 'license_plate', 'name'
+    str_customize = Str(data_type="name")  # Support 'email', 'word'(Default), 'address', 'license_plate', 'name'
     print(str_customize.mock())  # e.g. Michelle Mendez
 
 
@@ -36,3 +36,4 @@ def test_str_timestamp():
     # Generate a timestamp with the same length as the given timestamp,
     # and within the range from (NOW - 1weeks) to (NOW + 1weeks), e.g. 1717759793 <str type>
     print(StrTimestamp(StrTimestamp.match('1717598215'), weeks=1).mock())
+

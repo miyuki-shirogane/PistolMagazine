@@ -1,6 +1,7 @@
 from pprint import pprint
 from random import choice
-from pistol_magazine import DataMocker, provider
+from pistol_magazine import DataMocker, provider, Str, Int, Timestamp
+from pistol_magazine.self_made import ProviderField
 
 
 def test_model_data_conversion():
@@ -44,7 +45,7 @@ def test_model_data_conversion():
 
 @provider
 class MyProvider:
-    def symbols(self):
+    def symbol(self):
         return choice(["BTC", "ETH"])
 
 
@@ -52,4 +53,23 @@ def test_provider():
     print(DataMocker().symbols())  # e.g. "BTC"
 
 
+def test_data_mocker():
+    """
+    :return:
+    {
+        "create_time": 1717747583,
+        "user_name": "Christine Woods",
+        "user_email": "hlyons@example.com",
+        "user_age": 44,
+        "user_symbol": "ETH"
+    }
+    """
+    class UserInfoMocker(DataMocker):
+        create_time: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
+        user_name: Str = Str(data_type="name")
+        user_email: Str = Str(data_type="email")
+        user_age: Int = Int(byte_nums=6, unsigned=True)
+        user_symbol: ProviderField = ProviderField(MyProvider().symbol)
 
+    data = UserInfoMocker().mock(to_json=True)
+    print(data)

@@ -98,8 +98,8 @@ class DataMocker(metaclass=_MetaMocker):
     def get_datatype(self):
         return self.models.get_datatype()
 
-    def mock(self):
-        return self.models.mock()
+    def mock(self, to_json: bool = False):
+        return self.models.mock(to_json=to_json)
 
     @classmethod
     def __call__(cls, *args, **kwargs):
@@ -111,3 +111,10 @@ class DataMocker(metaclass=_MetaMocker):
         except AttributeError:
             return getattr(fake, name)
 
+
+class ProviderField(_BaseField):
+    def __init__(self, provider_method):
+        self.provider_method = provider_method
+
+    def mock(self):
+        return self.provider_method()

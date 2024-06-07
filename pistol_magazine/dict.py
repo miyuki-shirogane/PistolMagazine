@@ -1,3 +1,5 @@
+import json
+
 from pistol_magazine.base import _BaseField
 
 
@@ -12,8 +14,14 @@ class Dict(_BaseField):
         else:
             self.dict_fields = dict_fields
 
-    def mock(self):
-        return {key: value.mock() for key, value in self.dict_fields.items()}
+    def mock(self, to_json: bool = False):
+        data = {key: value.mock() for key, value in self.dict_fields.items()}
+        if to_json:
+            if not isinstance(data, dict):
+                raise TypeError("Expected a dict for JSON serialization.")
+            return json.dumps(data)
+        else:
+            return data
 
     def get_datatype(self):
         return {key: value.get_datatype() for key, value in self.dict_fields.items()}
