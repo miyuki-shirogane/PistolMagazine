@@ -24,6 +24,7 @@ Here’s a quick example to get you started:
 
 ```python
 from pistol_magazine import *
+from pistol_magazine.self_made import ProviderField
 from random import choice
 
 # Define your data structure
@@ -44,11 +45,29 @@ print(Dict(expect_format).mock())
 # Create a custom provider
 @provider
 class MyProvider:
-    def symbols(self):
+    def symbol(self):
         return choice(["BTC", "ETH"])
 
 # Use the custom provider, e.g. "ETH"
-print(DataMocker.symbols())
+class UserInfoMocker(DataMocker):
+    create_time: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
+    user_name: Str = Str(data_type="name")
+    user_email: Str = Str(data_type="email")
+    user_age: Int = Int(byte_nums=6, unsigned=True)
+    user_symbol: ProviderField = ProviderField(MyProvider().symbol)
+
+data = UserInfoMocker().mock(to_json=True)
+"""
+e.g.
+{
+    "create_time": 1717747583,
+    "user_name": "Christine Woods",
+    "user_email": "hlyons@example.com",
+    "user_age": 44,
+    "user_symbol": "ETH"
+}
+"""
+print(data)
 
 ```
 

@@ -55,7 +55,7 @@ def test_provider():
 
 def test_data_mocker():
     """
-    :return:
+    :return: e.g.
     {
         "create_time": 1717747583,
         "user_name": "Christine Woods",
