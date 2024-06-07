@@ -1,11 +1,35 @@
+from enum import Enum
+
 from pistol_magazine.base import _BaseField
 from datetime import datetime
 
 
+class DataTypeDescriptor:
+    def __init__(self, fake_instance):
+        self._fake_instance = fake_instance
+        self._valid_data_types = {name for name in dir(fake_instance) if not name.startswith('_')}
+        self._value = None
+
+    def __get__(self, instance, owner):
+        return self._value
+
+    def __set__(self, instance, value):
+        if value not in self._valid_data_types:
+            raise ValueError(f"Unsupported data type: {value}. Must be one of {self._valid_data_types}")
+        self._value = value
+
+
 class Str(_BaseField):
+    data_type = DataTypeDescriptor(_BaseField.fake)
+
+    def __init__(self, data_type="word"):
+        self.data_type = data_type
 
     def mock(self):
-        return self.fake.word()
+        generator = getattr(self.fake, self.data_type, None)
+        if generator is None:
+            raise ValueError(f"No such generator for data type: {self.data_type}")
+        return generator()
 
     @classmethod
     def match(cls, value: str):

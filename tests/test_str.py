@@ -7,6 +7,8 @@ def test_str():
     print(str.match("123").mock())  # e.g.-6559854688025321017 <str type>
     print(str.match("information").mock())  # e.g. figure <str type>
     print(str.match("2.3").mock())  # e.g. 48.27 <str type>
+    str_customize = Str(data_type="namee")  # Support 'email', 'word'(Default), 'address', 'license_plate', 'name'
+    print(str_customize.mock())  # e.g. Michelle Mendez
 
 
 def test_str_int():
