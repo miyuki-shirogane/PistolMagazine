@@ -1,6 +1,6 @@
 from pprint import pprint
 from random import choice
-from pistol_magazine import DataMocker, provider, Str, Int, Timestamp
+from pistol_magazine import DataMocker, provider, Str, Int, Timestamp, Bool
 from pistol_magazine.self_made import ProviderField
 
 
@@ -70,6 +70,7 @@ def test_data_mocker():
         user_email: Str = Str(data_type="email")
         user_age: Int = Int(byte_nums=6, unsigned=True)
         user_symbol: ProviderField = ProviderField(MyProvider().symbol)
+        user_marriage: Bool = Bool()
 
     data = UserInfoMocker().mock(to_json=True)
     print(data)
