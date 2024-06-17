@@ -51,13 +51,13 @@ class MyProvider:
         return choice(["ACTIVE", "INACTIVE"])
 
 
-@hook('before_generate', order=1)
-def before_generate_first_hook(data):
+@hook('pre_generate', order=1)
+def pre_generate_first_hook(data):
     print("Start Mocking User Data")
 
 
-@hook('before_generate', order=2)
-def before_generate_second_hook(data):
+@hook('pre_generate', order=2)
+def pre_generate_second_hook(data):
     """
     Perform some preprocessing operations, such as starting external services.
     """
@@ -69,12 +69,12 @@ def after_generate_first_hook(data):
     return data
 
 
-@hook('after_generate', order=2)
-def after_generate_second_hook(data):
+@hook('final_generate', order=1)
+def final_generate_second_hook(data):
     """
     Suppose there is a function send_to_message_queue(data) to send data to the message queue
-    send_to_message_queue(data)
     """
+    print(type(data))
 
 
 def test_data_mocker():
@@ -107,7 +107,6 @@ def test_data_mocker():
                 StrInt(byte_nums=6, unsigned=True)
             ]
         )
-
     data = UserInfoMocker().mock(num_entries=2, to_json=True)
-    print(data)
+    pprint(data)
 

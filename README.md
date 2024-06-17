@@ -39,29 +39,32 @@ class MyProvider:
     def user_status(self):
         return choice(["ACTIVE", "INACTIVE"])
     
-@hook('before_generate', order=1)
-def before_generate_first_hook(data):
+    
+"""
+Define hook functions
+before_generate: Executes operations before generating all data. Suitable for tasks like logging or starting external services.
+after_generate: Executes operations after generating each data entry but before final processing. Suitable for tasks like data validation or conditional modifications.
+final_generate: Executes operations after generating and processing all data entries. Suitable for final data processing, sending data to message queues, or performing statistical analysis.
+"""
+@hook('pre_generate', order=1)
+def pre_generate_first_hook(data):
     print("Start Mocking User Data")
 
-
-@hook('before_generate', order=2)
-def before_generate_second_hook(data):
+@hook('pre_generate', order=2)
+def pre_generate_second_hook(data):
     """
     Perform some preprocessing operations, such as starting external services.
     """
-
 
 @hook('after_generate', order=1)
 def after_generate_first_hook(data):
     data['user_status'] = 'ACTIVE' if data['user_age'] >= 18 else 'INACTIVE'
     return data
 
-
-@hook('after_generate', order=2)
-def after_generate_second_hook(data):
+@hook('final_generate', order=1)
+def final_generate_second_hook(data):
     """
     Suppose there is a function send_to_message_queue(data) to send data to the message queue
-    send_to_message_queue(data)
     """
 
 # Use the custom provider

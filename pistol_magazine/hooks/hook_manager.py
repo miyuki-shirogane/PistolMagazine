@@ -1,8 +1,14 @@
 class HookManager:
     def __init__(self):
+        """
+        before_generate: Executes operations before generating all data. Suitable for tasks like logging or starting external services.
+        after_generate: Executes operations after generating each data entry but before final processing. Suitable for tasks like data validation or conditional modifications.
+        final_generate: Executes operations after generating and processing all data entries. Suitable for final data processing, sending data to message queues, or performing statistical analysis.
+        """
         self.hooks = {
-            'before_generate': [],
-            'after_generate': []
+            'pre_generate': [],
+            'after_generate': [],
+            'final_generate': [],
         }
 
     def register_hook(self, hook_point, func, order=0):

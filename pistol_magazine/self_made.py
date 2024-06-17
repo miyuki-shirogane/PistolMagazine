@@ -105,7 +105,7 @@ class DataMocker(metaclass=_MetaMocker):
     def mock(self, to_json: bool = False, num_entries: Optional[int] = None, key_generator: Optional[Callable[[], str]] = None):
         if key_generator is None:
             key_generator = lambda: str(uuid.uuid4())
-        hook_manager.trigger_hooks('before_generate', None)
+        hook_manager.trigger_hooks('pre_generate', None)
         if num_entries is not None:
             final_result = {}
             for _ in range(num_entries):
@@ -119,6 +119,7 @@ class DataMocker(metaclass=_MetaMocker):
             result = hook_manager.trigger_hooks('after_generate', result)
         if to_json:
             result = json.dumps(result)
+        result = hook_manager.trigger_hooks('final_generate', result)
         return result
 
     @classmethod
