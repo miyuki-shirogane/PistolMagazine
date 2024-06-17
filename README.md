@@ -32,7 +32,6 @@ Here’s a quick example to get you started:
 from pistol_magazine import *
 from random import choice
 from pistol_magazine.hooks.hooks import hook
-from pprint import pprint
 
 # Create a custom provider
 @provider
@@ -53,13 +52,13 @@ def before_generate_second_hook(data):
 
 
 @hook('after_generate', order=1)
-def after_generate_validation_hook(data):
+def after_generate_first_hook(data):
     data['user_status'] = 'ACTIVE' if data['user_age'] >= 18 else 'INACTIVE'
     return data
 
 
 @hook('after_generate', order=2)
-def after_generate_validation_hook(data):
+def after_generate_second_hook(data):
     """
     Suppose there is a function send_to_message_queue(data) to send data to the message queue
     send_to_message_queue(data)
@@ -89,17 +88,9 @@ class UserInfoMocker(DataMocker):
 data = UserInfoMocker().mock(num_entries=2, to_json=True)
 """
 e.g.
-('{"078b8418-5730-4c4b-a0e0-337be2510a67": {"create_time": 1718538271, '
- '"user_name": "Pamela Chapman", "user_email": "ambermurphy@example.net", '
- '"user_age": 13, "user_status": "INACTIVE", "user_marriage": true, "user_dict": '
- '{"a": -59.1054, "b": 1718443314}, "user_list": ["2024-06-30T18:23:50", '
- '"62"]}, "f2d257e7-a065-4f00-9180-34d11b81fec0": {"create_time": 1718712539, '
- '"user_name": "Amanda Green", "user_email": "christinebrown@example.org", '
- '"user_age": 27, "user_status": "ACTIVE", "user_marriage": false, '
- '"user_dict": {"a": 13.4132, "b": 1718661665}, "user_list": '
- '["2024-06-19T05:17:39", "29"]}}')
+{"e09e74c4-b556-45ed-8c96-ec3f699c0efc": {"create_time": 1718452464, "user_name": "Melissa Bautista", "user_email": "hortonrachel@example.net", "user_age": 61, "user_status": "ACTIVE", "user_marriage": false, "user_dict": {"a": -19.7677, "b": 1718721164}, "user_list": ["2024-06-03T21:58:51", "21"]}, "22a1b460-c890-4f69-9c31-eabc494fce1b": {"create_time": 1718440430, "user_name": "Sherry Rodriguez", "user_email": "kristinramirez@example.org", "user_age": 46, "user_status": "ACTIVE", "user_marriage": false, "user_dict": {"a": 56.4705, "b": 1718609356}, "user_list": ["2024-06-22T14:17:46", "54"]}}
 """
-pprint(data)
+print(data)
 
 ```
 

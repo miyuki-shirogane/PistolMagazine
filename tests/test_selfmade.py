@@ -64,13 +64,13 @@ def before_generate_second_hook(data):
 
 
 @hook('after_generate', order=1)
-def after_generate_validation_hook(data):
+def after_generate_first_hook(data):
     data['user_status'] = 'ACTIVE' if data['user_age'] >= 18 else 'INACTIVE'
     return data
 
 
 @hook('after_generate', order=2)
-def after_generate_validation_hook(data):
+def after_generate_second_hook(data):
     """
     Suppose there is a function send_to_message_queue(data) to send data to the message queue
     send_to_message_queue(data)
@@ -109,5 +109,5 @@ def test_data_mocker():
         )
 
     data = UserInfoMocker().mock(num_entries=2, to_json=True)
-    pprint(data)
+    print(data)
 
