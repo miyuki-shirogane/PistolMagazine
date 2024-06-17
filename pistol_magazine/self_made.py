@@ -1,3 +1,6 @@
+import json
+import uuid
+from typing import Optional, Callable
 from pistol_magazine.base import _BaseField
 from pistol_magazine.datetime import Datetime
 from pistol_magazine.dict import Dict
@@ -6,6 +9,7 @@ from pistol_magazine.int import Int
 from pistol_magazine.list import List
 from pistol_magazine.str import Str, StrTimestamp
 from pistol_magazine.timestamp import Timestamp
+from .hooks.hook_manager import hook_manager
 from .provider import fake
 
 
@@ -98,8 +102,24 @@ class DataMocker(metaclass=_MetaMocker):
     def get_datatype(self):
         return self.models.get_datatype()
 
-    def mock(self, to_json: bool = False):
-        return self.models.mock(to_json=to_json)
+    def mock(self, to_json: bool = False, num_entries: Optional[int] = None, key_generator: Optional[Callable[[], str]] = None):
+        if key_generator is None:
+            key_generator = lambda: str(uuid.uuid4())
+        hook_manager.trigger_hooks('before_generate', None)
+        if num_entries is not None:
+            final_result = {}
+            for _ in range(num_entries):
+                entry_key = key_generator()
+                data = self.models.mock(to_json=False)
+                data = hook_manager.trigger_hooks('after_generate', data)
+                final_result[entry_key] = data
+            result = final_result
+        else:
+            result = self.models.mock(to_json=False)
+            result = hook_manager.trigger_hooks('after_generate', result)
+        if to_json:
+            result = json.dumps(result)
+        return result
 
     @classmethod
     def __call__(cls, *args, **kwargs):
