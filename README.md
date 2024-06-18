@@ -15,6 +15,7 @@ PistolMagazine is a data mocking tool designed to help you generate realistic da
   - **Dynamic Data Modification**: Perform data validation or sanitization before generating mock data.
   - **Sending Data to Message Queues**: Transmit generated data to message queues for integration with other systems.
   - **Data Profiling**: Perform statistical analysis or monitoring post data generation.
+- **Data Export** 📤: Supports exporting to CSV, JSON, XML, and MySQL.
 
 ## Installation 📦
 
