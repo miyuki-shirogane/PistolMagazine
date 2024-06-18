@@ -2,23 +2,16 @@ from pistol_magazine.base import _BaseField
 from datetime import datetime
 
 
-# class DataTypeDescriptor:
-#     def __init__(self, fake_instance):
-#         self._fake_instance = fake_instance
-#         self._valid_data_types = {name for name in dir(fake_instance) if not name.startswith('_')}
-#         self._value = None
-#
-#     def __get__(self, instance, owner):
-#         return self._value
-#
-#     def __set__(self, instance, value):
-#         if value not in self._valid_data_types:
-#             raise ValueError(f"Unsupported data type: {value}. Must be one of {self._valid_data_types}")
-#         self._value = value
 class DataTypeDescriptor:
     def __init__(self, fake_instance):
         self._fake_instance = fake_instance
         self._valid_data_types = {name for name in dir(fake_instance) if not name.startswith('_')}
+        self._invalid_data_types = {
+            'weights', 'optional', 'get_formatter', 'provider', 'add_provider', 'set_formatter',
+            'xml', 'parse', 'unique', 'format', 'cache_pattern', 'providers', 'seed_locale',
+            'locales', 'get_arguments', 'enum', 'set_arguments', 'generator_attrs', 'factories',
+            'seed', 'random', 'del_arguments'
+        }
 
     def __get__(self, instance, owner):
         if instance is None:
@@ -26,8 +19,8 @@ class DataTypeDescriptor:
         return instance.__dict__.get('data_type')
 
     def __set__(self, instance, value):
-        if value not in self._valid_data_types:
-            raise ValueError(f"Unsupported data type: {value}. Must be one of {self._valid_data_types}")
+        if value not in self._valid_data_types or value in self._invalid_data_types:
+            raise ValueError(f"Unsupported data type: {value}. Must be one of {self._valid_data_types.difference(self._invalid_data_types)}")
         instance.__dict__['data_type'] = value
 
 
