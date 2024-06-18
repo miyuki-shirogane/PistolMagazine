@@ -44,69 +44,58 @@ def test_model_data_conversion():
     pprint(data_mocker2.mock())
 
 
-
 @provider
 class MyProvider:
     def user_status(self):
         return choice(["ACTIVE", "INACTIVE"])
 
 
-@hook('pre_generate', order=1)
+@hook('pre_generate', order=1, hook_set='SET1')
 def pre_generate_first_hook(data):
     print("Start Mocking User Data")
 
 
-@hook('pre_generate', order=2)
+@hook('pre_generate', order=2, hook_set='SET1')
 def pre_generate_second_hook(data):
     """
     Perform some preprocessing operations, such as starting external services.
     """
 
 
-@hook('after_generate', order=1)
+@hook('after_generate', order=1, hook_set="SET1")
 def after_generate_first_hook(data):
     data['user_status'] = 'ACTIVE' if data['user_age'] >= 18 else 'INACTIVE'
     return data
 
 
-@hook('final_generate', order=1)
+@hook('final_generate', order=1, hook_set="SET1")
 def final_generate_second_hook(data):
     """
     Suppose there is a function send_to_message_queue(data) to send data to the message queue
     """
-    print(type(data))
 
 
-def test_data_mocker():
-    """
-    :return: e.g.
-    {
-        "create_time": 1717747583,
-        "user_name": "Christine Woods",
-        "user_email": "hlyons@example.com",
-        "user_age": 44,
-        "user_status": "ACTIVE"
-    }
-    """
-    class UserInfoMocker(DataMocker):
-        create_time: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
-        user_name: Str = Str(data_type="name")
-        user_email: Str = Str(data_type="email")
-        user_age: Int = Int(byte_nums=6, unsigned=True)
-        user_status: ProviderField = ProviderField(MyProvider().user_status)
-        user_marriage: Bool = Bool()
-        user_dict: Dict = Dict(
-            {
-                "a": Float(left=2, right=4, unsigned=True),
-                "b": Timestamp(Timestamp.D_TIMEE10, days=2)
-            }
-        )
-        user_list: List = List(
-            [
-                Datetime(Datetime.D_FORMAT_YMD_T, weeks=2),
-                StrInt(byte_nums=6, unsigned=True)
-            ]
-        )
-    data = UserInfoMocker().mock(num_entries=2, to_json=True)
-    pprint(data)
+class UserInfo(DataMocker):
+    create_time: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
+    user_name: Str = Str(data_type="name")
+    user_email: Str = Str(data_type="email")
+    user_age: Int = Int(byte_nums=6, unsigned=True)
+    user_status: ProviderField = ProviderField(MyProvider().user_status)
+    user_marriage: Bool = Bool()
+    user_dict: Dict = Dict(
+        {
+            "a": Float(left=2, right=4, unsigned=True),
+            "b": Timestamp(Timestamp.D_TIMEE10, days=2)
+        }
+    )
+    user_list: List = List(
+        [
+            Datetime(Datetime.D_FORMAT_YMD_T, weeks=2),
+            StrInt(byte_nums=6, unsigned=True)
+        ]
+    )
 
+
+def test_gen_data():
+    data = UserInfo().mock(num_entries=2, as_list=False, to_json=True, hook_set='SET1')
+    print(data)

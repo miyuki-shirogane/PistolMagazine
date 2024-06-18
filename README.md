@@ -46,29 +46,32 @@ pre_generate: Executes operations before generating all data. Suitable for tasks
 after_generate: Executes operations after generating each data entry but before final processing. Suitable for tasks like data validation or conditional modifications.
 final_generate: Executes operations after generating and processing all data entries. Suitable for final data processing, sending data to message queues, or performing statistical analysis.
 """
-@hook('pre_generate', order=1)
+@hook('pre_generate', order=1, hook_set='SET1')
 def pre_generate_first_hook(data):
     print("Start Mocking User Data")
 
-@hook('pre_generate', order=2)
+
+@hook('pre_generate', order=2, hook_set='SET1')
 def pre_generate_second_hook(data):
     """
     Perform some preprocessing operations, such as starting external services.
     """
 
-@hook('after_generate', order=1)
+
+@hook('after_generate', order=1, hook_set="SET1")
 def after_generate_first_hook(data):
     data['user_status'] = 'ACTIVE' if data['user_age'] >= 18 else 'INACTIVE'
     return data
 
-@hook('final_generate', order=1)
+
+@hook('final_generate', order=1, hook_set="SET1")
 def final_generate_second_hook(data):
     """
     Suppose there is a function send_to_message_queue(data) to send data to the message queue
     """
 
 # Use the custom provider
-class UserInfoMocker(DataMocker):
+class UserInfo(DataMocker):
     create_time: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
     user_name: Str = Str(data_type="name")
     user_email: Str = Str(data_type="email")
@@ -88,10 +91,10 @@ class UserInfoMocker(DataMocker):
         ]
     )
 
-data = UserInfoMocker().mock(num_entries=2, to_json=True)
+data = UserInfo().mock(num_entries=2, as_list=False, to_json=True, hook_set='SET1')
 """
 e.g.
-{"e09e74c4-b556-45ed-8c96-ec3f699c0efc": {"create_time": 1718452464, "user_name": "Melissa Bautista", "user_email": "hortonrachel@example.net", "user_age": 61, "user_status": "ACTIVE", "user_marriage": false, "user_dict": {"a": -19.7677, "b": 1718721164}, "user_list": ["2024-06-03T21:58:51", "21"]}, "22a1b460-c890-4f69-9c31-eabc494fce1b": {"create_time": 1718440430, "user_name": "Sherry Rodriguez", "user_email": "kristinramirez@example.org", "user_age": 46, "user_status": "ACTIVE", "user_marriage": false, "user_dict": {"a": 56.4705, "b": 1718609356}, "user_list": ["2024-06-22T14:17:46", "54"]}}
+{"dda7d976-5094-4395-be92-306e7618ec48": {"create_time": 1718601558, "user_name": "Matthew Burke", "user_email": "aaronbrown@example.org", "user_age": 56, "user_status": "ACTIVE", "user_marriage": true, "user_dict": {"a": 5.1988, "b": 1718523595}, "user_list": ["2024-06-08T14:54:16", "44"]}, "c78f7896-f08c-414e-823b-8f173ab8259b": {"create_time": 1718685343, "user_name": "Dennis Collier", "user_email": "amy02@example.com", "user_age": 30, "user_status": "ACTIVE", "user_marriage": true, "user_dict": {"a": 55.2365, "b": 1718577918}, "user_list": ["2024-06-26T16:40:48", "43"]}}
 """
 print(data)
 

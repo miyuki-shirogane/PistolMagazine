@@ -6,22 +6,32 @@ class HookManager:
         final_generate: Executes operations after generating and processing all data entries. Suitable for final data processing, sending data to message queues, or performing statistical analysis.
         """
         self.hooks = {
-            'pre_generate': [],
-            'after_generate': [],
-            'final_generate': [],
+            'default': {
+                'pre_generate': [],
+                'after_generate': [],
+                'final_generate': [],
+            }
         }
 
-    def register_hook(self, hook_point, func, order=0):
-        if hook_point in self.hooks:
-            self.hooks[hook_point].append((func, order))
-            self.hooks[hook_point].sort(key=lambda x: x[1])
+    def register_hook(self, hook_point, func, order=0, hook_set='default'):
+        if hook_set not in self.hooks:
+            self.hooks[hook_set] = {
+                'pre_generate': [],
+                'after_generate': [],
+                'final_generate': [],
+            }
+
+        if hook_point in self.hooks[hook_set]:
+            self.hooks[hook_set][hook_point].append((func, order))
+            self.hooks[hook_set][hook_point].sort(key=lambda x: x[1])
         else:
             raise ValueError(f"Hook point {hook_point} not recognized.")
 
-    def trigger_hooks(self, hook_point, data):
-        for func, _ in self.hooks.get(hook_point, []):
+    def trigger_hooks(self, hook_point, data, hook_set='default'):
+        for func, _ in self.hooks.get(hook_set, {}).get(hook_point, []):
             func(data)
         return data
 
 
 hook_manager = HookManager()
+
