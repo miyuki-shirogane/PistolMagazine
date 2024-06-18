@@ -6,3 +6,4 @@ logs/
 build/
 dist/
 *.egg-info/
+db_conf.py
