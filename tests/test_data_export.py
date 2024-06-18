@@ -45,6 +45,7 @@ def test():
     xml_exporter.export(data_xml, 'output.xml')
 
 
-# # Export to MySQL Database
-# db_exporter = DBExporter(table_name='persons')
-# db_exporter.export(data)
+def test_db():
+    # Export to MySQL Database
+    db_exporter = DBExporter(table_name='table')
+    db_exporter.export(data)
