@@ -47,5 +47,5 @@ def test():
 
 def test_db():
     # Export to MySQL Database
-    db_exporter = DBExporter(table_name='table')
+    db_exporter = DBExporter(table_name='table_name', module_name='mysql_info')
     db_exporter.export(data)

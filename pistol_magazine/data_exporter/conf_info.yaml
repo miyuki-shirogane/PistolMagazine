@@ -1,0 +1,7 @@
+mysql_info:
+  user: dbhub
+  password: dbhub
+  host: 10.20.42.67
+  port': 33061,
+  database: dbriska
+

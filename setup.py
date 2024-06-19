@@ -8,7 +8,7 @@ def read_readme():
 
 setup(
     name='PistolMagazine',
-    version='0.5.2',
+    version='0.5.3',
     description='A data mocking tool designed to help you generate realistic data for testing and development purposes.',
     author='Ealyn',
     author_email='miyuk1@126.com',
@@ -26,6 +26,7 @@ setup(
         'Faker==25.1.0',
         'pytest==6.2.4',
         'dicttoxml~=1.7.16',
-        'PyMySQL~=1.0.2'
+        'PyMySQL~=1.0.2',
+        'PyYAML~=6.0.1'
     ],
 )
