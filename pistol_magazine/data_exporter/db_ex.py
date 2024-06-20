@@ -1,6 +1,5 @@
 import pymysql
 from .exporter import Exporter
-from ..utils.read_yaml import get_data
 
 
 class DataValidator:
@@ -33,16 +32,15 @@ class DataValidator:
 class DBExporter(Exporter):
     data = DataValidator()
 
-    def __init__(self, table_name, module_name):
+    def __init__(self, table_name, db_config):
         self.table_name = table_name
-        self.module_name = module_name
+        self.db_config = db_config
         self._data = None
 
     def export(self, data, filename=None):
         self.data = data  # Trigger validation through descriptor
 
-        config = get_data(module=self.module_name)
-        conn = pymysql.connect(**config)
+        conn = pymysql.connect(**self.db_config)
         cursor = conn.cursor()
 
         for entry in self.data:

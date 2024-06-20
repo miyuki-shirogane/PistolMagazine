@@ -47,5 +47,12 @@ def test():
 
 def test_db():
     # Export to MySQL Database
-    db_exporter = DBExporter(table_name='hg_triskopenset', module_name='mysql_info')
-    db_exporter.export(data_xml)
+    db_config = {
+        "user": "User",
+        "password": "Password",
+        "host": "Localhost",
+        "port": 3306,
+        "database": "DB"
+    }
+    db_exporter = DBExporter(table_name='TableNAme', db_config=db_config)
+    db_exporter.export(data)

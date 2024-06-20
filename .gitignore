@@ -6,4 +6,3 @@ logs/
 build/
 dist/
 *.egg-info/
-conf_info.yaml
