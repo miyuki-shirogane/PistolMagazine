@@ -36,16 +36,16 @@ def test():
     csv_exporter = CSVExporter()
     csv_exporter.export(data, 'output.csv')
 
-    # Export to JSON
-    json_exporter = JSONExporter()
-    json_exporter.export(data, 'output.json')
-
-    # Export to XML
-    xml_exporter = XMLExporter()
-    xml_exporter.export(data_xml, 'output.xml')
+    # # Export to JSON
+    # json_exporter = JSONExporter()
+    # json_exporter.export(data, 'output.json')
+    #
+    # # Export to XML
+    # xml_exporter = XMLExporter()
+    # xml_exporter.export(data_xml, 'output.xml')
 
 
 def test_db():
     # Export to MySQL Database
-    db_exporter = DBExporter(table_name='table_name', module_name='mysql_info')
-    db_exporter.export(data)
+    db_exporter = DBExporter(table_name='hg_triskopenset', module_name='mysql_info')
+    db_exporter.export(data_xml)

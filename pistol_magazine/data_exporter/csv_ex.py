@@ -1,9 +1,15 @@
 import csv
+
+from .db_ex import DataValidator
 from .exporter import Exporter
 
 
 class CSVExporter(Exporter):
+    data = DataValidator()
+
     def export(self, data, filename):
+        self.data = data  # Trigger validation through descriptor
+
         if isinstance(data, dict):
             data = [data]
         keys = data[0].keys()
