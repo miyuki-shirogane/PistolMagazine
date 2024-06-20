@@ -36,13 +36,13 @@ def test():
     csv_exporter = CSVExporter()
     csv_exporter.export(data, 'output.csv')
 
-    # # Export to JSON
-    # json_exporter = JSONExporter()
-    # json_exporter.export(data, 'output.json')
-    #
-    # # Export to XML
-    # xml_exporter = XMLExporter()
-    # xml_exporter.export(data_xml, 'output.xml')
+    # Export to JSON
+    json_exporter = JSONExporter()
+    json_exporter.export(data, 'output.json')
+
+    # Export to XML
+    xml_exporter = XMLExporter()
+    xml_exporter.export(data_xml, 'output.xml')
 
 
 def test_db():
