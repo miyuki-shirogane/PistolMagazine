@@ -22,7 +22,7 @@ PistolMagazine is a data mocking tool designed to help you generate realistic da
 Install PistolMagazine using pip:
 
 ```bash
-pip install pistolmagazine
+pip install PistolMagazine
 ```
 
 ## Quick Start 🚀
