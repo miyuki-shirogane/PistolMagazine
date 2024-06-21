@@ -102,37 +102,6 @@ class DataMocker(metaclass=_MetaMocker):
     def get_datatype(self):
         return self.models.get_datatype()
 
-    # def mock(
-    #         self, to_json: bool = False,
-    #         num_entries: Optional[int] = None,
-    #         key_generator: Optional[Callable[[], str]] = None,
-    #         as_list: bool = False
-    # ):
-    #     if key_generator is None:
-    #         key_generator = lambda: str(uuid.uuid4())
-    #     hook_manager.trigger_hooks('pre_generate', None)
-    #     if num_entries is not None:
-    #         if as_list:
-    #             final_result = []
-    #             for _ in range(num_entries):
-    #                 data = self.models.mock(to_json=False)
-    #                 data = hook_manager.trigger_hooks('after_generate', data)
-    #                 final_result.append(data)
-    #         else:
-    #             final_result = {}
-    #             for _ in range(num_entries):
-    #                 entry_key = key_generator()
-    #                 data = self.models.mock(to_json=False)
-    #                 data = hook_manager.trigger_hooks('after_generate', data)
-    #                 final_result[entry_key] = data
-    #         result = final_result
-    #     else:
-    #         result = self.models.mock(to_json=False)
-    #         result = hook_manager.trigger_hooks('after_generate', result)
-    #     if to_json:
-    #         result = json.dumps(result)
-    #     result = hook_manager.trigger_hooks('final_generate', result)
-    #     return result
     def mock(
             self, to_json: bool = False,
             num_entries: Optional[int] = None,

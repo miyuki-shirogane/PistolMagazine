@@ -1,8 +1,7 @@
 from pprint import pprint
-from random import choice
-from pistol_magazine import DataMocker, provider, Str, Int, Timestamp, Bool, Dict, Float, List, Datetime, StrInt
+from random import choice, randint
+from pistol_magazine import *
 from pistol_magazine.hooks.hooks import hook
-from pistol_magazine.self_made import ProviderField
 
 
 def test_model_data_conversion():
