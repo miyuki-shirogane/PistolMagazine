@@ -1,4 +1,4 @@
-from pistol_magazine.data_exporter import CSVExporter, JSONExporter, XMLExporter, DBExporter
+from pistol_magazine import CSVExporter, JSONExporter, XMLExporter, DBExporter
 
 data = [
     {"name": "Alice", "age": 25, "city": "New York"},
