@@ -8,6 +8,7 @@ PistolMagazine is a data mocking tool designed to help you generate realistic da
 
 - **Flexible Data Types** 📊: Supports various data types including integers, floats, strings, timestamps, and more.
 - **Custom Providers** 🛠️: Easily create and integrate custom data providers.
+  - **Built-in Providers** 🏗️: Provides several built-in providers for common use cases.
 - **Random Data Generation** 🎲: Generates realistic random data for testing.
 - **Hook Functions** 🪝: Support for hook functions, allowing users to execute custom operations before or after generating mock data. These hooks can be utilized for:
   - **Logging**: Record relevant operations or data before or after data generation.
