@@ -7,3 +7,4 @@ build/
 dist/
 *.egg-info/
 test_research.py
+setup.py
