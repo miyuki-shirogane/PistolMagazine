@@ -23,8 +23,8 @@ class TimeDeltaDescriptor:
 
 
 class Timestamp(_BaseField):
-    D_TIMEE13 = 3
-    D_TIMEE10 = 0
+    D_TIMEE13 = 13
+    D_TIMEE10 = 10
 
     kwargs = TimeDeltaDescriptor()
 
@@ -35,13 +35,13 @@ class Timestamp(_BaseField):
 
     def mock(self):
         if not self.kwargs:
-            return int(self.current_time.timestamp() * (10 ** self.times))
+            return int(self.current_time.timestamp() * (10 ** (self.times-10)))
         else:
             delta = timedelta(**self.kwargs)
             start_time = self.current_time - delta
             end_time = self.current_time + delta
             random_time = start_time + (end_time - start_time) * random()
-            return int(random_time.timestamp() * (10 ** self.times))
+            return int(random_time.timestamp() * (10 ** (self.times-10)))
 
     @classmethod
     def match(cls, value):
@@ -50,7 +50,7 @@ class Timestamp(_BaseField):
         end = now + timedelta(weeks=100)
         for times in cls.defined_list:
             try:
-                timestamp = value / (10 ** times)
+                timestamp = value / (10 ** (times - 10))
                 if timestamp > 1:
                     date = datetime.fromtimestamp(timestamp)
                     if start < date < end:
@@ -61,6 +61,3 @@ class Timestamp(_BaseField):
 
     def get_datatype(self):
         return "_".join([type(self).__name__, str(self.times)])
-
-
-

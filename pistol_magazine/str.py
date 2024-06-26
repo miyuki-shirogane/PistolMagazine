@@ -83,8 +83,8 @@ class StrFloat(_BaseField):
 
 
 class StrTimestamp(_BaseField):
-    D_TIMEE13 = 3
-    D_TIMEE10 = 0
+    D_TIMEE13 = 13
+    D_TIMEE10 = 10
 
     def __init__(self, times: int or str = D_TIMEE13, **kwargs):
         self.current_time = datetime.now()

@@ -30,8 +30,8 @@ def test_model_data_conversion():
     }
     models = {
         'a': {'1': 'Datetime_%Y-%m-%dT%H:%M:%S', '2': 'StrFloat', '3': 'Float', '4': 'Int'},
-        'b': 'Timestamp_0', 'c': 'Timestamp_3', 'd': 'Str',
-        'e': ['StrTimestamp_3', 'Str', {'f': 'Int', "g": "StrInt"}]
+        'b': 'Timestamp_10', 'c': 'Timestamp_13', 'd': 'Str',
+        'e': ['StrTimestamp_13', 'Str', {'f': 'Int', "g": "StrInt"}]
     }
     data_mocker1 = DataMocker.data_to_model(data)
     data_mocker2 = DataMocker.model_to_data(models)

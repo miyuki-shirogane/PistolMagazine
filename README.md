@@ -102,7 +102,7 @@ print(data)
 
 ```
 
-If you want more detailed instructions, you can refer to the examples and documentation in the [tests' directory](tests).
+If you want more detailed instructions, you can refer to the examples and documentation in the [wiki](https://github.com/miyuki-shirogane/PistolMagazine/wiki).
 
 
 ## Help PistolMagazine
