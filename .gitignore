@@ -6,5 +6,5 @@ logs/
 build/
 dist/
 *.egg-info/
-test/
+tests/
 setup.py
