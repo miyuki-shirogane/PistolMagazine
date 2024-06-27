@@ -1,6 +1,4 @@
 Faker==25.1.0
-pytest==6.2.4
 setuptools~=59.0.1
 dicttoxml~=1.7.16
 PyMySQL~=1.0.2
-PyYAML~=6.0.1
