@@ -9,6 +9,7 @@ from .timestamp import Timestamp
 from .self_made import DataMocker
 from .self_made import ProviderField
 from .provider import provider
+from .hooks.hooks import hook
 from .data_exporter.csv_ex import CSVExporter
 from .data_exporter.json_ex import JSONExporter
 from .data_exporter.xml_ex import XMLExporter
@@ -39,6 +40,7 @@ __all__ = [
     'StrTimestamp',
     'DataMocker',
     'provider',
+    'hook',
     'ProviderField',
     'Bool',
 
