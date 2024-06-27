@@ -29,7 +29,10 @@ class HookManager:
 
     def trigger_hooks(self, hook_point, data, hook_set='default'):
         for func, _ in self.hooks.get(hook_set, {}).get(hook_point, []):
-            func(data)
+            if data is not None:
+                func(data)
+            else:
+                func()
         return data
 
 

@@ -49,12 +49,12 @@ after_generate: Executes operations after generating each data entry but before 
 final_generate: Executes operations after generating and processing all data entries. Suitable for final data processing, sending data to message queues, or performing statistical analysis.
 """
 @hook('pre_generate', order=1, hook_set='SET1')
-def pre_generate_first_hook(data):
+def pre_generate_first_hook():
     print("Start Mocking User Data")
 
 
 @hook('pre_generate', order=2, hook_set='SET1')
-def pre_generate_second_hook(data):
+def pre_generate_second_hook():
     """
     Perform some preprocessing operations, such as starting external services.
     """
