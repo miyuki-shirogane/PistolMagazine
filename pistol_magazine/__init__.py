@@ -16,7 +16,7 @@ from .data_exporter.xml_ex import XMLExporter
 from .data_exporter.db_ex import DBExporter
 
 from .built_in_provider.cyclic_parameter import CyclicParameterProvider
-from .built_in_provider.fixed_value import FixedValueProvider
+
 from .built_in_provider.random_choice_from_list import RandomChoiceFromListProvider
 from .built_in_provider.random_float_in_range import RandomFloatInRangeProvider
 from .built_in_provider.incremental_value import IncrementalValueProvider
@@ -52,7 +52,6 @@ __all__ = [
     'DBExporter',
 
     'CyclicParameterProvider',
-    'FixedValueProvider',
     'RandomChoiceFromListProvider',
     'RandomFloatInRangeProvider',
     'IncrementalValueProvider',
