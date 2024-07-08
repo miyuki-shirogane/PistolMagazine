@@ -1,3 +1,4 @@
+import inspect
 import json
 import uuid
 from typing import Optional, Callable
@@ -104,7 +105,7 @@ class DataMocker(metaclass=_MetaMocker):
 
     def mock(
             self, to_json: bool = False,
-            num_entries: Optional[int] = None,
+            num_entries: Optional[int] = 1,
             key_generator: Optional[Callable[[], str]] = None,
             as_list: bool = False,
             hook_set: Optional[str] = 'default'
@@ -115,27 +116,34 @@ class DataMocker(metaclass=_MetaMocker):
         if hook_set is not None:
             hook_manager.trigger_hooks('pre_generate', None, hook_set)
 
-        if num_entries is not None:
-            if as_list:
-                final_result = []
-                for _ in range(num_entries):
-                    data = self.models.mock(to_json=False)
-                    if hook_set is not None:
-                        data = hook_manager.trigger_hooks('after_generate', data, hook_set)
-                    final_result.append(data)
-            else:
-                final_result = {}
-                for _ in range(num_entries):
-                    entry_key = key_generator()
-                    data = self.models.mock(to_json=False)
-                    if hook_set is not None:
-                        data = hook_manager.trigger_hooks('after_generate', data, hook_set)
-                    final_result[entry_key] = data
-            result = final_result
-        else:
-            result = self.models.mock(to_json=False)
+        def generate_data():
+            data = {}
+            # Include all annotated fields
+            for attr_name, attr_type in self.__annotations__.items():
+                field_value = getattr(self, attr_name)
+                if isinstance(field_value, _BaseField):
+                    data[attr_name] = field_value.mock()
+                else:
+                    data[attr_name] = field_value
+
+            # Handle non-annotated fields, excluding methods and special attributes
+            for attr_name in dir(self):
+                if not attr_name.startswith("__") and attr_name not in self.__annotations__:
+                    attr_value = getattr(self, attr_name)
+                    if not callable(attr_value) and attr_name != 'models':  # Exclude methods and 'models'
+                        data[attr_name] = attr_value
+
             if hook_set is not None:
-                result = hook_manager.trigger_hooks('after_generate', result, hook_set)
+                data = hook_manager.trigger_hooks('after_generate', data, hook_set)
+
+            return data
+
+        if as_list:
+            final_result = [generate_data() for _ in range(num_entries)]
+        else:
+            final_result = {key_generator(): generate_data() for _ in range(num_entries)}
+
+        result = final_result
 
         if to_json:
             result = json.dumps(result)
@@ -144,6 +152,44 @@ class DataMocker(metaclass=_MetaMocker):
             result = hook_manager.trigger_hooks('final_generate', result, hook_set)
 
         return result
+
+    # def mock(
+    #         self, to_json: bool = False,
+    #         num_entries: Optional[int] = 1,
+    #         key_generator: Optional[Callable[[], str]] = None,
+    #         as_list: bool = False,
+    #         hook_set: Optional[str] = 'default'
+    # ):
+    #     if key_generator is None:
+    #         key_generator = lambda: str(uuid.uuid4())
+    #
+    #     if hook_set is not None:
+    #         hook_manager.trigger_hooks('pre_generate', None, hook_set)
+    #
+    #     if as_list:
+    #         final_result = []
+    #         for _ in range(num_entries):
+    #             data = self.models.mock(to_json=False)
+    #             if hook_set is not None:
+    #                 data = hook_manager.trigger_hooks('after_generate', data, hook_set)
+    #             final_result.append(data)
+    #     else:
+    #         final_result = {}
+    #         for _ in range(num_entries):
+    #             entry_key = key_generator()
+    #             data = self.models.mock(to_json=False)
+    #             if hook_set is not None:
+    #                 data = hook_manager.trigger_hooks('after_generate', data, hook_set)
+    #             final_result[entry_key] = data
+    #     result = final_result
+    #
+    #     if to_json:
+    #         result = json.dumps(result)
+    #
+    #     if hook_set is not None:
+    #         result = hook_manager.trigger_hooks('final_generate', result, hook_set)
+    #
+    #     return result
 
     @classmethod
     def __call__(cls, *args, **kwargs):
