@@ -14,7 +14,7 @@ class IncrementalValueProvider(DataMocker):
         self.current = start
         self.step = step
 
-    def get_next_value(self):
+    def gen(self):
         value = self.current
         self.current += self.step
         return value

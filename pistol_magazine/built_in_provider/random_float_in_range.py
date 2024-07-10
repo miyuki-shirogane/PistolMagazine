@@ -18,7 +18,7 @@ class RandomFloatInRangeProvider(DataMocker):
         self.end = end
         self.precision = precision
 
-    def get_random_float(self):
+    def gen(self):
         """
         Returns a random float value within the specified range rounded to the specified precision.
 

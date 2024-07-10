@@ -16,5 +16,5 @@ class CyclicParameterProvider(DataMocker):
             parameter_list = ["default_param1", "default_param2", "default_param3"]
         self.parameters = itertools.cycle(parameter_list)
 
-    def get_next_param(self):
+    def gen(self):
         return next(self.parameters)

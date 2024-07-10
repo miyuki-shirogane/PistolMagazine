@@ -13,7 +13,7 @@ class RegexProvider(DataMocker):
         super().__init__()
         self.pattern = pattern
 
-    def get_value(self):
+    def gen(self):
         """
         Returns a value generated to match the regular expression pattern.
 

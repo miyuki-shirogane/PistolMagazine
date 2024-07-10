@@ -17,5 +17,5 @@ class RandomChoiceFromListProvider(DataMocker):
             value_list = ["default_random1", "default_random2", "default_random3"]
         self.values = value_list
 
-    def get_random_value(self):
+    def gen(self):
         return choice(self.values)
