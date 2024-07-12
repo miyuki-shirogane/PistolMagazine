@@ -30,18 +30,29 @@ pip install PistolMagazine
 
 Here’s a quick example to get you started:
 
+
+You can use the `pistol-gen` command to interactively select a sample code template and specify the path for the generated code within your project directory.
+
+Run the following command:
+
+```bash
+pistol-gen
+```
+
+The tool will then generate the file with the chosen template at the specified location.
+
 ```python
-from pistol_magazine import *
 from random import choice
-from pistol_magazine.hooks.hooks import hook
+from pistol_magazine import *
+
 
 # Create a custom provider
 @provider
 class MyProvider:
-    def user_status(self):
+    def my_provider(self):
         return choice(["ACTIVE", "INACTIVE"])
-    
-    
+
+
 """
 Define hook functions
 pre_generate: Executes operations before generating all data. Suitable for tasks like logging or starting external services.
@@ -59,10 +70,9 @@ def pre_generate_second_hook():
     Perform some preprocessing operations, such as starting external services.
     """
 
-
 @hook('after_generate', order=1, hook_set="SET1")
 def after_generate_first_hook(data):
-    data['user_status'] = 'ACTIVE' if data['user_age'] >= 18 else 'INACTIVE'
+    data['customized_param'] = 'ACTIVE' if data['int_param'] >= 18 else 'INACTIVE'
     return data
 
 
@@ -70,35 +80,58 @@ def after_generate_first_hook(data):
 def final_generate_second_hook(data):
     """
     Suppose there is a function send_to_message_queue(data) to send data to the message queue
+    Or use built-in data exporters to export data, like the code below⬇️.
     """
+    json_exporter = JSONExporter()  # Also support csv, db, xml export
+    json_exporter.export(data, 'output.json')
 
-# Use the custom provider
-class UserInfo(DataMocker):
-    create_time: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
-    user_name: Str = Str(data_type="name")
-    user_email: Str = Str(data_type="email")
-    user_age: Int = Int(byte_nums=6, unsigned=True)
-    user_status: ProviderField = ProviderField(MyProvider().user_status)
-    user_marriage: Bool = Bool()
-    user_dict: Dict = Dict(
+
+class Temp(DataMocker):
+    timestamp_param: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
+    str_param1: Str = Str(data_type="name")
+    str_param2: Str = Str(data_type="email")
+    int_param: Int = Int(byte_nums=6, unsigned=True)
+    customized_param: ProviderField = ProviderField(MyProvider().my_provider)
+    bool_param: Bool = Bool()
+    dict_param: Dict = Dict(
         {
             "a": Float(left=2, right=4, unsigned=True),
             "b": Timestamp(Timestamp.D_TIMEE10, days=2)
         }
     )
-    user_list: List = List(
+    list_param: List = List(
         [
             Datetime(Datetime.D_FORMAT_YMD_T, weeks=2),
             StrInt(byte_nums=6, unsigned=True)
         ]
     )
+    built_in_provider_param1: ProviderField = ProviderField(
+        CyclicParameterProvider(parameter_list=["x", "y", "z"]).gen
+    )
+    built_in_provider_param2: ProviderField = ProviderField(
+        RandomFloatInRangeProvider(start=0.00, end=4.00, precision=4).gen
+    )
+    built_in_provider_param3: ProviderField = ProviderField(
+        IncrementalValueProvider(start=0, step=-2).gen
+    )
+    built_in_provider_param4: ProviderField = ProviderField(
+        RegexProvider(pattern=r"\d{3}-[a-z]{2}").gen
+    )
+    fixed_value_str = "fixed_value"
+    fixed_value_dict = {"key": "value"}
 
-data = UserInfo().mock(num_entries=2, as_list=False, to_json=True, hook_set='SET1')
-"""
-e.g.
-{"dda7d976-5094-4395-be92-306e7618ec48": {"create_time": 1718601558, "user_name": "Matthew Burke", "user_email": "aaronbrown@example.org", "user_age": 56, "user_status": "ACTIVE", "user_marriage": true, "user_dict": {"a": 5.1988, "b": 1718523595}, "user_list": ["2024-06-08T14:54:16", "44"]}, "c78f7896-f08c-414e-823b-8f173ab8259b": {"create_time": 1718685343, "user_name": "Dennis Collier", "user_email": "amy02@example.com", "user_age": 30, "user_status": "ACTIVE", "user_marriage": true, "user_dict": {"a": 55.2365, "b": 1718577918}, "user_list": ["2024-06-26T16:40:48", "43"]}}
-"""
-print(data)
+    def gen_data(self):
+        return self.mock(
+            num_entries=3,
+            as_list=False,
+            to_json=True,
+            hook_set='SET1',
+            key_generator=lambda: RegexProvider(pattern=r"^[A-Z]{4}-\d{3}$").gen()
+        )
+
+
+if __name__ == '__main__':
+    print(Temp().gen_data())
 
 ```
 

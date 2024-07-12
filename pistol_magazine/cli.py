@@ -7,12 +7,19 @@ from random import choice
 from pistol_magazine import *
 
 
+# Create a custom provider
 @provider
 class MyProvider:
     def my_provider(self):
         return choice(["ACTIVE", "INACTIVE"])
 
 
+"""
+Define hook functions
+pre_generate: Executes operations before generating all data. Suitable for tasks like logging or starting external services.
+after_generate: Executes operations after generating each data entry but before final processing. Suitable for tasks like data validation or conditional modifications.
+final_generate: Executes operations after generating and processing all data entries. Suitable for final data processing, sending data to message queues, or performing statistical analysis.
+"""
 @hook('pre_generate', order=1, hook_set='SET1')
 def pre_generate_first_hook():
     print("Start Mocking User Data")
@@ -84,7 +91,7 @@ class Temp(DataMocker):
         )
 
 
-def test_user_temp():
+if __name__ == '__main__':
     print(Temp().gen_data())
 
 '''
