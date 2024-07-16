@@ -107,7 +107,8 @@ class DataMocker(metaclass=_MetaMocker):
             num_entries: Optional[int] = 1,
             key_generator: Optional[Callable[[], str]] = None,
             as_list: bool = False,
-            hook_set: Optional[str] = 'default'
+            hook_set: Optional[str] = 'default',
+            single_item: bool = False
     ):
         if key_generator is None:
             key_generator = lambda: str(uuid.uuid4())
@@ -137,12 +138,14 @@ class DataMocker(metaclass=_MetaMocker):
 
             return data
 
-        if as_list:
+        if single_item:
+            result = generate_data()
+        elif as_list:
             final_result = [generate_data() for _ in range(num_entries)]
+            result = final_result
         else:
             final_result = {key_generator(): generate_data() for _ in range(num_entries)}
-
-        result = final_result
+            result = final_result
 
         if to_json:
             result = json.dumps(result)
@@ -202,8 +205,11 @@ class DataMocker(metaclass=_MetaMocker):
 
 
 class ProviderField(_BaseField):
-    def __init__(self, provider_method):
+    def __init__(self, provider_method, *args, **kwargs):
         self.provider_method = provider_method
+        self.args = args
+        self.kwargs = kwargs
 
     def mock(self):
-        return self.provider_method()
+        return self.provider_method(*self.args, **self.kwargs)
+

@@ -1,8 +1,9 @@
 import click
 import os
 
+
 TEMPLATES = {
-    "regular": '''
+    "Simple Template": '''
 from random import choice
 from pistol_magazine import *
 
@@ -94,29 +95,97 @@ class Temp(DataMocker):
 if __name__ == '__main__':
     print(Temp().gen_data())
 
-'''
+''',
+    "Postman Template": '''
+from pistol_magazine import *
+
+
+@hook('final_generate', order=1, hook_set="SET1")
+def final_generate_second_hook(data):
+    json_exporter = JSONExporter()
+    json_exporter.export(data, 'output.json')
+
+
+class RequestBody(DataMocker):
+    create_time: Timestamp = Timestamp(Timestamp.D_TIMEE10, days=2)
+    user_name: Str = Str(data_type="name")
+    user_email: Str = Str(data_type="email")
+    user_age: Int = Int(byte_nums=6, unsigned=True)
+
+    def gen_body(self):
+        return self.mock(single_item=True, to_json=True)
+
+
+@provider
+class CreateUserItemProvider:
+    def generate_user_item(self):
+        return {
+            "name": "Create User",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": RequestBody().gen_body()
+                },
+                "url": "https://api.example.com/users"
+            }
+        }
+
+    def gen_item_list(self, num_items: int = 1):
+        return [self.generate_user_item() for _ in range(num_items)]
+
+
+class PostmanRESTfulAPITemplate(DataMocker):
+    info = {
+        "name": "Simple Collection",
+        "description": "This is a sample Postman collection"
+    }
+    item: ProviderField = ProviderField(CreateUserItemProvider().gen_item_list, num_items=2)
+
+    def get_template(self):
+        return self.mock(single_item=True, to_json=True, hook_set="SET1")
+
+
+if __name__ == '__main__':
+    print(PostmanRESTfulAPITemplate().get_template())
+
+    '''
 }
 
 
 @click.command()
-@click.option('--template', type=click.Choice(['regular']), prompt=True, help="Select a template to generate")
+@click.option('--template', type=click.Choice(['a', 'b']),
+              prompt='Select a template to generate (a: Simple Template, b: Postman Template):',
+              help="Select a template to generate")
 @click.option('--output', type=click.Path(), prompt=True, help="Output file path")
 def generate_template(template, output):
-    template_content = TEMPLATES.get(template)
-    if not template_content:
-        click.echo(f"Template '{template}' not found.")
-        return
+
+    template_mapping = {'a': 'Simple Template', 'b': 'Postman Template'}
+    selected_template = template_mapping[template]
+
+    if not output.endswith('.py'):
+        output += '.py'
 
     output_dir = os.path.dirname(output)
-
     if output_dir and not os.path.exists(output_dir):
         click.echo(f"Directory {output_dir} not exist. Creating it...")
         os.makedirs(output_dir)
 
+    template_content = TEMPLATES.get(selected_template)
+    if not template_content:
+        click.echo(f"Template '{selected_template}' not found.")
+        return
+
     with open(output, 'w') as f:
         f.write(template_content)
 
-    click.echo(f"Template '{template}' has been generated to  {os.path.abspath(output)}")
+    click.echo(f"Template '{selected_template}' has been generated to {os.path.abspath(output)}")
 
 
 if __name__ == '__main__':
