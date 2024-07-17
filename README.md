@@ -1,6 +1,7 @@
 # PistolMagazine 🎯
 [![PyPI - Version](https://img.shields.io/pypi/v/PistolMagazine)](https://pypi.org/project/PistolMagazine/)
 
+![Project cover](./cover.jpeg)
 
 PistolMagazine is a data mocking tool designed to help you generate realistic data for testing and development purposes.
 
