@@ -1,5 +1,6 @@
 import pymysql
-from .exporter import Exporter
+
+from pistol_magazine.data_exporter.exporter import Exporter
 
 
 class DataValidator:
