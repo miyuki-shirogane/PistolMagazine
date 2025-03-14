@@ -9,7 +9,7 @@ class Float(_BaseField):
 
     def mock(self):
         result = self.fake.pyfloat(self.left, self.right)
-        if not self.unsigned:
+        if self.unsigned:
             result = abs(result)
         return result
 
