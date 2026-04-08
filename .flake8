@@ -1,0 +1,24 @@
+[flake8]
+# Set maximum line length
+max-line-length = 127
+
+# Set maximum complexity
+max-complexity = 10
+
+# Ignore specific warnings
+# F403: 'from module import *' used; unable to detect undefined names (allowed in tests)
+# F405: name may be undefined, or defined from star imports (allowed in tests)
+# W605: invalid escape sequence (regex patterns in strings)
+# F401: imported but unused (allowed in tests)
+per-file-ignores =
+    tests/*:F403,F405,F401,W391,E302,E501
+    pistol_magazine/cli.py:W605,E501
+    pistol_magazine/data_exporter/xml_ex.py:E501,E126
+    pistol_magazine/hooks/hook_manager.py:E501,W391
+    pistol_magazine/hooks/hooks.py:E501
+    pistol_magazine/str.py:E501
+    pistol_magazine/self_made.py:E731,W391,C901
+    pistol_magazine/timestamp.py:E226
+
+# Enable specific checks
+select = E,W,F,C,N

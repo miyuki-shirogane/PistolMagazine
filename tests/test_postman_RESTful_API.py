@@ -1,13 +1,13 @@
 from pistol_magazine import *
 
 
-@hook('final_generate', order=1, hook_set="SET1")
+@hook('final_generate', order=1, hook_set="POSTMAN_SET")
 def final_generate_second_hook(data):
     json_exporter = JSONExporter()
     json_exporter.export(data, 'output.json')
 
 
-@hook('after_generate', order=1, hook_set="SET2")
+@hook('after_generate', order=1, hook_set="POSTMAN_BODY_SET")
 def after_generate_first_hook(data):
     data['user_status'] = 'ACTIVE' if data['user_age'] >= 18 else 'INACTIVE'
     return data
@@ -25,7 +25,7 @@ class RequestBody(DataMocker):
             single_item=False,
             as_list=False,
             to_json=True,
-            hook_set='SET2'
+            hook_set='POSTMAN_BODY_SET'
         )
 
 
@@ -62,7 +62,7 @@ class PostmanRESTfulAPITemplate(DataMocker):
     item: ProviderField = ProviderField(CreateUserItemProvider().gen_item_list, num_items=2)
 
     def get_template(self):
-        return self.mock(single_item=True, to_json=True, hook_set="SET1")
+        return self.mock(single_item=True, to_json=True, hook_set="POSTMAN_SET")
 
 
 def test_postman_restful_api():

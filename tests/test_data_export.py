@@ -1,3 +1,4 @@
+import pytest
 from pistol_magazine import *
 
 
@@ -50,6 +51,7 @@ def test():
     postman_exporter.export(data=data_xml, filename='output.postman_collection.json')
 
 
+@pytest.mark.skip(reason="MySQL server not available in CI environment")
 def test_db():
     # Export to MySQL Database
     db_config = {
