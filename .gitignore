@@ -6,5 +6,5 @@ logs/
 build/
 dist/
 *.egg-info/
-tests/
 setup.py
+output.json
