@@ -6,5 +6,8 @@ logs/
 build/
 dist/
 *.egg-info/
-setup.py
 output.json
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
